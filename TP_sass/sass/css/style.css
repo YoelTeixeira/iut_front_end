@@ -1,0 +1,137 @@
+@charset "UTF-8";
+/* Q2 */
+/* Q1 */
+/* line 6, ../scss/style.scss */
+.taille-1 {
+  width: 25%;
+}
+
+/* line 6, ../scss/style.scss */
+.taille-2 {
+  width: 50%;
+}
+
+/* line 6, ../scss/style.scss */
+.taille-3 {
+  width: 75%;
+}
+
+/* line 6, ../scss/style.scss */
+.taille-4 {
+  width: 100%;
+}
+
+/* Q4 + Q5 */
+/* Q3 */
+/* line 19, ../scss/style.scss */
+.taille-petite {
+  width: 25%;
+}
+
+/* line 19, ../scss/style.scss */
+.taille-standard {
+  width: 50%;
+}
+
+/* line 19, ../scss/style.scss */
+.taille-moyenne {
+  width: 75%;
+}
+
+/* line 19, ../scss/style.scss */
+.taille-grande {
+  width: 100%;
+}
+
+/* Q6 */
+/* Q7 */
+/* Q8 */
+/* Q10 */
+/* Q9 */
+/* line 46, ../scss/style.scss */
+.ville-espagne::before {
+  display: block;
+  content: "Espagne";
+}
+
+/* line 46, ../scss/style.scss */
+.ville-maroc::before {
+  display: block;
+  content: "Maroc";
+}
+
+/* line 46, ../scss/style.scss */
+.ville-bresil::before {
+  display: block;
+  content: "Brésil";
+}
+
+/* line 46, ../scss/style.scss */
+.ville-caraibes::before {
+  display: block;
+  content: "Les îles caraïbes";
+}
+
+/* Q11 */
+/* Q13 -> voir index.html */
+/* Q14 */
+/* Q15 */
+/* Q12 */
+/* line 77, ../scss/style.scss */
+.social-facebook {
+  color: #3B5998;
+  background: #96abd6;
+}
+
+/* line 77, ../scss/style.scss */
+.social-twitter {
+  color: #55ACEE;
+  background: #e0f0fc;
+}
+
+/* line 77, ../scss/style.scss */
+.social-linkedin {
+  color: #007bb5;
+  background: #4fc7ff;
+}
+
+/* line 77, ../scss/style.scss */
+.social-instagram {
+  color: #125688;
+  background: #4ca5e7;
+}
+
+/* line 77, ../scss/style.scss */
+.social-pinterest {
+  color: #cb2027;
+  background: #ee9699;
+}
+
+/* line 77, ../scss/style.scss */
+.social-youtube {
+  color: #bb0000;
+  background: #ff5555;
+}
+
+/* Exo Compass */
+/* line 100, ../scss/style.scss */
+.notification, .succes, .erreur {
+  padding: 5px 5px 5px 5px;
+  margin: 5px 5px 5px 5px;
+  background: #55ACEE;
+  border: 3px solid #0f5f9b;
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px;
+  text-shadow: 1px 1px 2px grey;
+}
+
+/* line 109, ../scss/style.scss */
+.succes {
+  color: lightgreen;
+}
+
+/* line 114, ../scss/style.scss */
+.erreur {
+  color: tomato;
+}

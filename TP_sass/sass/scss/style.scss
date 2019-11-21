@@ -1,0 +1,117 @@
+/* Q2 */
+@mixin mixinNbSizes() {
+  /* Q1 */
+  $elements: 4;
+  @for $i from 1 through $elements {
+      .taille-#{$i} {
+          width: (100% / $elements) * $i;
+      }
+  }
+}
+
+@include mixinNbSizes();
+
+$sizes: ("petite", "standard", "moyenne", "grande");
+/* Q4 + Q5 */
+@mixin mixinStringSizes($class, $list) {
+  /* Q3 */
+  @for $i from 1 through length($list) {
+    .#{$class}-#{nth($list, $i)} {
+      width: (100% / length($list)) * $i;
+    }
+  }
+}
+
+@include mixinStringSizes(taille, $sizes);
+
+/* Q6 */
+@function first($array) {
+  @return nth($array, 1);
+}
+@debug "première valeur du tableau: #{first($sizes)}";
+
+/* Q7 */
+@function last($array) {
+  @return nth($array, length($array))
+}
+@debug "dernière valeur du tableau: #{last($sizes)}";
+
+/* Q8 */
+$destinations: ("espagne": "Espagne", "maroc": "Maroc", "bresil": "Brésil", "caraibes": "Les îles caraïbes");
+
+/* Q10 */
+@mixin mixinDestinations($position) {
+  /* Q9 */
+  @each $className, $content in $destinations {
+    .ville-#{$className}::#{$position} {
+      display: block;
+      content: $content;
+    }
+  }
+}
+
+@include mixinDestinations(before);
+
+/* Q11 */
+$social: ("facebook": #3B5998, "twitter": #55ACEE, "linkedin": #007bb5, "instagram": #125688, "pinterest": #cb2027, "youtube": #bb0000);
+
+/* Q13 -> voir index.html */
+
+/* Q14 */
+@mixin lighten($percentage) {
+  /* Q12 */
+  @each $network, $color in $social {
+    .social-#{$network} {
+      background: lighten($color, $percentage);
+      color: $color;
+    }
+  }
+}
+
+//@include lighten(10%);
+
+/* Q15 */
+@mixin filtering($action, $percentage) {
+  /* Q12 */
+  @each $network, $color in $social {
+    .social-#{$network} {
+      color: $color;
+      @if ($action == "lighten") {
+        background: lighten($color, $percentage);
+      } @elseif ($action == "darken") {
+        background: darken($color, $percentage);
+      }
+
+    }
+  }
+}
+
+@include filtering("lighten", 30%);
+
+
+
+
+/* Exo Compass */
+
+@import "compass/css3";
+
+$background: #55ACEE;
+
+.notification {
+  padding: 5px 5px 5px 5px;
+  margin: 5px 5px 5px 5px;
+  background: $background;
+  border: 3px solid darken($background, 30%);
+  @include border-radius(10px, 10px);
+  text-shadow:  1px 1px 2px grey;
+}
+
+.succes {
+  @extend .notification;
+  color: lightgreen;
+}
+
+.erreur {
+  @extend .notification;
+  color: tomato;
+}

@@ -1,0 +1,114 @@
+* {
+  font-family: sans-serif;
+  color: darkslategrey;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 5Opx;
+  text-align: center;
+  color: white;
+  margin: 0;
+  padding: 100px 0 50px 0px;
+}
+
+h2 {
+  color: orange;
+}
+
+a {
+  text-decoration: none;
+  color: orange;
+}
+
+table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-spacing: 0;
+}
+
+td {
+  padding-left: 20px;
+}
+
+td img {
+  object-fit: cover;
+}
+
+thead th {
+  background-color: orange;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: white;
+}
+
+tbody tr:nth-child(even), tbody tr:nth-child(odd):hover {
+  background-color: #ebebeb;
+}
+
+nav ul {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  background-color: orange;
+  padding: 20px 20px 20px 20px;
+  position: fixed;
+  width: 100%
+}
+
+nav ul li a { color: white!important; }
+
+nav ul li:hover .dropdown{
+  display: block;
+}
+
+.dropdown {
+  background-color: orange;
+  padding: 30px 20px 20px 20px;
+  position: absolute;
+  display: none;
+  list-style: none;
+}
+
+.dropdown li {
+  padding: 10px 5px 10px 5px;
+}
+
+header {
+  width: 100%;
+  background-image: url(https://img.bfmtv.com/c/1000/600/609ad/e9fd5f640762d13cef0fea8dd37.jpeg);
+  background-size: cover;
+}
+
+button {
+  cursor: pointer;
+  color: white;
+  background-color: orange;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px 10px 15px;
+  font-size: 17px;
+}
+
+form button[type=submit] {
+  float: right;
+}
+
+input, textarea {
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  margin: 5px 5px 5px 5px;
+  padding: 10px 10px 10px 10px;
+}
+
+input:focus, textarea:focus {
+  outline: none!important;
+  border: 1px solid orange;
+  border-radius: 10px!important;
+}
