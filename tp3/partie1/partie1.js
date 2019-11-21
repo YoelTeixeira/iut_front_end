@@ -24,47 +24,40 @@ if(max == 0) {
 
 
 // Tableaux et gestion d’évènements
+var countries = {
+  France     : ["Paris", "Grenoble", "Marseille", "Lyon"],
+  Espagne    : ["Barcelone", "Madrid", "Seville", "Valencia"],
+  Portugal   : ["Lisbonne", "Porto", "Faro", "Algarve"],
+  Angleterre : ["Londres", "Brighton", "Oxford", "Manchester"]
+}
 
-var France      = ["Paris", "Grenoble", "Marseille", "Lyon"];
-var Espagne     = ["Barcelone", "Madrid", "Seville", "Valencia"];
-var Portugal    = ["Lisbonne", "Porto", "Faro", "Algarve"];
-var Angleterre  = ["Londres", "Brighton", "Oxford", "Manchester"];
+var user_city = document.getElementById("city");
+var button = document.getElementById("btn");
+
+user_city.addEventListener("keyup", () => {
+  if(checkCity(user_city.value) == null) {
+    button.setAttribute("disabled", "true");
+  } else {
+    button.removeAttribute("disabled");
+  }
+});
 
 document.getElementById("form").addEventListener("submit", function(e) {
   e.preventDefault();
-
-  var found = false;
-  var user_city = document.getElementById("city").value;
-
-  France.forEach((city) => {
-    if(user_city == city) {
-      found = true;
-      window.alert("Bienvenue en France");
-    }
-  });
-  if(found === false) {
-    Espagne.forEach((city) => {
-      if(user_city == city) {
-        found = true;
-        window.alert("Bienvenue en Espagne");
-      }
-    });
+  var country = checkCity(user_city.value);
+  if(country !== null) {
+    window.alert("Bienvenue " + country[0]);
   }
-  if(found === false) {
-    Portugal.forEach((city) => {
-      if(user_city == city) {
-        found = true;
-        window.alert("Bienvenue au Portugal");
-      }
-    });
-  }
-  if(found === false) {
-    Angleterre.forEach((city) => {
-      if(user_city == city) {
-        found = true;
-        window.alert("Bienvenue en Angleterre");
-      }
-    });
-  }
-
 });
+
+function checkCity(value) {
+  var country_match = null;
+  Object.entries(countries).forEach((country) => {
+    countries[country[0]].forEach((city) => {
+      if(value == city) {
+        country_match = country;
+      }
+    });
+  });
+  return country_match;
+}
