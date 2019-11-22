@@ -74,6 +74,7 @@ nav ul li:hover .dropdown{
   position: absolute;
   display: none;
   list-style: none;
+  width: auto;
 }
 
 .dropdown li {
