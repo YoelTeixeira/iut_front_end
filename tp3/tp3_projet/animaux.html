@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Animaux</title>
+    <meta name="description" content="Nos animaux">
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body>
+    <header>
+      <nav></nav>
+      <h1>Animaux</h1>
+    </header>
+    <form id="form_catalog" action="index.html" method="post">
+      <label for="input_nom">Nom</label>
+      <input id="input_nom" name="nom" type="text" required>
+      <label for="input_img">Image</label>
+      <input id="input_img" name="img" type="text" required>
+      <label for="input_description">Description</label>
+      <input id="input_description" name="description" type="text" required>
+      <label for="input_pays_natal">Pays natal</label>
+      <input id="input_pays_natal" name="pays_natal" type="text" required>
+      <button id="form_btn_add" type="submit">Ajouter</button>
+    </form>
+    <table>
+      <thead>
+        <th>Nom</th>
+        <th></th>
+        <th>Description</th>
+        <th>Pays natal</th>
+        <th></th>
+      </thead>
+      <tbody id="tbody">
+      </tbody>
+    </table>
+
+    <template id="template_tr">
+        <td class="nom"></td>
+        <td class="img"></td>
+        <td class="description"></td>
+        <td class="pays_natal"></td>
+        <td>
+          <button class="btn_edit" type="button">modifier</button><br>
+          <button class="btn_delete" type="button">supprimer</button>
+          <details class="resume">
+          </details>
+        </td>
+    </template>
+    <script src="menu.js"></script>
+    <script>
+      var animals = [
+        {
+          nom: "Tigre",
+          description: "Description tigre",
+          pays_natal: "Bengale",
+          img: "https://img.bfmtv.com/c/1000/600/609ad/e9fd5f640762d13cef0fea8dd37.jpeg"
+        },{
+          nom: "Eléphant",
+          description: "Description éléphant",
+          pays_natal: "Botswana",
+          img: "https://cdn.futura-sciences.com/buildsv6/images/wide1920/d/5/6/d569cb1f6a_121383_elephant-vieux.jpg"
+        },{
+          nom: "Lion",
+          description: "Description lion",
+          pays_natal: "Botswana",
+          img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Lion_d%27Afrique.jpg/1200px-Lion_d%27Afrique.jpg"
+        },{
+          nom: "Léopard",
+          description: "Description léopard",
+          pays_natal: "Botswana",
+          img: "https://cdn.futura-sciences.com/buildsv6/images/mediumoriginal/0/0/a/00a169e094_103744_leopard-rosettes.jpg"
+        }
+      ];
+
+      var entries = Object.entries(animals[0]);
+
+      animals.forEach((animal) => {
+        append_to_table(entries, animal);
+      });
+
+      set_form_event();
+
+      function set_form_event(id) {
+        var form = document.querySelector("#form_catalog");
+        form.addEventListener("submit", function(e) { form_event(e, id, entries) }, {once : true});
+      }
+
+      function form_event(e, id, entries) {
+        e.preventDefault();
+        console.log(e);
+        if(id == undefined) {
+          console.log("add");
+          append_to_table(entries, construct_animal_by_form());
+        } else {
+          console.log("edit");
+          edit_tr(id);
+        }
+        set_form_event();
+      }
+
+      function construct_animal_by_form() {
+        var animal = {};
+        document.querySelectorAll('#form_catalog input').forEach((input) => {
+          animal[input.name] = input.value;
+        });
+        return animal;
+      }
+
+      function construct_animal_by_tr(tr) {
+        var animal = {};
+
+        tr.querySelectorAll('td').forEach((td) => {
+          if(td.className != "buttons") {
+            if(td.className == "img") {
+              animal[td.className] = td.querySelector("img").getAttribute('src');
+            } else {
+              animal[td.className] = td.innerHTML;
+            }
+          }
+        });
+        return animal;
+      }
+
+      function fill_form(animal) {
+        document.querySelectorAll('#form_catalog input').forEach((input) => {
+          input.value = animal[input.name];
+        });
+      }
+
+      function reset_form() {
+        document.querySelectorAll('#form_catalog input').forEach((input) => {
+          input.value = "";
+        });
+      }
+
+      function edit_tr(id) {
+        var tr = document.getElementById(id);
+        var animal = construct_animal_by_form();
+        tr.querySelectorAll('td').forEach((td) => {
+          if(td.className == "buttons") {
+
+          } else if(td.className == 'img') {
+            td.innerHTML = `<img class="img" width="90px" height="90px" src="${animal[td.className]}" alt="">`;
+          } else {
+            td.innerHTML = animal[td.className];
+          }
+        });
+        replace_form_button(null, null, "add");
+        reset_form();
+      }
+
+      function replace_form_button(entries, tr, action) {
+        var form = document.querySelector('#form_catalog');
+        if(action == "edit") {
+          var new_btn = document.createElement("button");
+          new_btn.setAttribute("class", "btn btn-primary");
+          new_btn.id = 'form_btn_edit';
+          new_btn.innerHTML = 'Modifier';
+          form.replaceChild(new_btn, form.querySelector('button'));
+          set_form_event(tr.id);
+        } else if(action == "add") {
+          var new_btn = document.createElement("button");
+          new_btn.setAttribute("class", "btn btn-primary");
+          new_btn.id = 'form_btn_add';
+          new_btn.innerHTML = 'Ajouter';
+          form.replaceChild(new_btn, form.querySelector('button'));
+          set_form_event();
+        }
+      }
+
+      function append_to_table(entries, obj) {
+        var resume = "";
+        var tr = document.createElement('tr');
+        tr.id = makeid(10);
+        tr.innerHTML = document.getElementById('template_tr').innerHTML;
+        tr.querySelector('.btn_edit').addEventListener("click", () => {edit_listener(entries, tr)});
+        tr.querySelector('.btn_delete').addEventListener("click", () => {tr.remove()});
+        entries.forEach((e) => {
+          // Traitement générique
+          tr.querySelectorAll('.'+e[0]).forEach((element) => {
+            if(element.className == "buttons") {
+
+            } else if(element.className == 'img') {
+              element.innerHTML = `<img class="img" width="90px" height="90px" src="${obj[e[0]]}" alt="">`;
+            } else {
+              element.innerHTML = obj[e[0]];
+              resume += obj[e[0]] + ", ";
+            }
+          });
+          // Traitements spécifiques
+          tr.getElementsByClassName("resume")[0].innerHTML = `<summary>Découvrir</summary> ${resume}`;
+
+          // Remplissage
+          document.getElementById('tbody').appendChild(tr);
+        });
+      }
+
+      function edit_listener(entries, tr) {
+        var animal = construct_animal_by_tr(tr);
+        fill_form(animal);
+        replace_form_button(entries, tr, "edit");
+      }
+
+      function makeid(length) {
+         var result           = '';
+         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+         var charactersLength = characters.length;
+         for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+         }
+         return result;
+      }
+
+    </script>
+  </body>
+</html>
