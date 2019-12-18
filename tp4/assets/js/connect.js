@@ -30,17 +30,38 @@ document.getElementsByTagName("nav")[0].innerHTML += `
 
 document.getElementById("form_login").addEventListener("submit", (e) => {
   e.preventDefault();
+  ajax_query("connect");
+});
+
+session = "";
+
+ajax_query();
+
+
+function ajax_query(action) {
+
   var xhr = new XMLHttpRequest();
+  var form_data = new FormData();
+  var form_inputs = document.getElementById("form_login").querySelectorAll("input");
+
+  form_inputs.forEach((input) => {
+    form_data.append(input.name, input.value);
+  });
+
   xhr.onload = function() {
-    if(this.responseText == "Success") {
-      alert("Connexion réussie");
-    } else {
+    if(this.responseText != "failed") {
+      if(action == "connect") {
+        alert("Connexion réussie");
+      }
+      session = this.responseText;
+    } else if(action == "connect") {
       alert("Identifiant ou mot de passe incorrect");
     }
+    console.log(session, "Session");
   };
   xhr.error = function() {
     console.log("Error");
   };
-  xhr.open("get", "localhost/script.php", true);
-  xhr.send();
-});
+  xhr.open("post", "http://localhost/scripts/script_dev_front.php", true);
+  xhr.send(form_data);
+}
