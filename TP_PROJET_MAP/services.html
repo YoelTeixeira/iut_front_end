@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Services</title>
+    <meta name="description" content="Nos visites virtuelles audio">
+    <meta name="keywords" content="visite,virtuelle,audio,animaux">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+     crossorigin=""/>
+     <style>
+       html, body {
+        height: 100%;
+        width: 100%;
+      }
+      @keyframes bounce{
+           from {top: 20px;}
+           50%  {top: 10px;}
+           to   {top: 10px;}
+      }
+      .bounce { animation: bounce 0.7s infinite; }
+     </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light"></nav>
+    </header>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Services</h1>
+      </div>
+    </div>
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-12 col-md-6">
+          <div id="map" style="height:450px"></div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="row">
+            <div class="col-12">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Informations</h5>
+                  <div class="card-text" id="informations">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Assistance</h5>
+                  <div class="card-text" id="assistance">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/menu.js"></script>
+    <script src="assets/js/connect.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+     crossorigin=""></script>
+
+    <script type="text/javascript">
+
+      var parcs = [
+        {
+          nom: "Zoo la flèche",
+          description: "Parc animalier, incluant tigres et éléphants, spectacles d'oiseaux et d'otaries, et location de logements.",
+          localisation: [47.677822, -0.046847],
+          site: "http://www.zoo-la-fleche.com/",
+          tel: "02 43 48 19 19",
+          main: true
+        },{
+          nom: "La Ferme aux Crocodiles",
+          description: "Grande serre tropicale avec plus de 400 crocodiles, des tortues géantes et des oiseaux.",
+          localisation: [44.357052, 4.704851],
+          site: "https://www.lafermeauxcrocodiles.com/",
+          tel: "04 75 04 33 73",
+          main: false
+        },{
+          nom: "Parc aux oiseaux",
+          description: "Parc spécialisé dans les oiseaux",
+          localisation: [45.991913, 5.025934],
+          site: "https://www.parcdesoiseaux.com/",
+          tel: "04 74 98 05 54",
+          main: false
+        }
+      ];
+
+      var custom_marker = L.icon({
+          iconUrl: 'assets/images/custom-marker.png',
+          iconSize: [38, 45]
+      });
+
+      var mymap = L.map('map').setView([46.814313, 2.434126], 6);
+
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 20,
+          id: 'mapbox/streets-v11',
+          accessToken: 'pk.eyJ1IjoieW9lbC10ZWl4ZWlyYS03IiwiYSI6ImNqdGhldHczbzBjdzgzeWxmMHllY3pocTEifQ.wTRYzHMwrgj0JYN-ckiauw'
+      }).addTo(mymap);
+
+      parcs.forEach((parc) => {
+
+        var marker = L.marker(parc.localisation, { icon: custom_marker });
+        marker.bindPopup(`<b>${parc.nom}</b>`);
+
+        marker.addTo(mymap).on('click', (e) => {
+
+          var main_marker = document.querySelector('.main-marker');
+          main_marker.classList.remove('bounce');
+          // Si c'est le marker principal on lance l'animation
+          if(e.target._icon.classList.contains('main-marker')) {
+            main_marker.classList.add('bounce');
+          }
+
+          document.getElementById('informations').innerHTML = `
+          <p>${parc.description}</p>
+          `;
+          document.getElementById('assistance').innerHTML = `
+          <p>Site web: ${parc.site}</p>
+          <p>Tél: ${parc.tel}</p>
+          `;
+        });
+
+        // Marker principal avec classe main-marker
+        if(parc.main != undefined && parc.main == true) {
+          marker._icon.classList.add('main-marker');
+        }
+      });
+
+    </script>
+
+  </body>
+</html>
